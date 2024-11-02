@@ -16,7 +16,8 @@ func Manejadores(ctx context.Context, request events.APIGatewayProxyRequest) mod
 	var r models.RestApi
 	r.Status = 400
 
-	isOk, statusCode, msg, claim := validoAuthorization(ctx, request)
+	//isOk, statusCode, msg, claim := validoAuthorization(ctx, request)
+	isOk, statusCode, msg, _ := validoAuthorization(ctx, request)
 	if !isOk {
 		r.Status = statusCode
 		r.Message = msg
@@ -66,7 +67,7 @@ func validoAuthorization(ctx context.Context, request events.APIGatewayProxyRequ
 	if !todoOK {
 		if err != nil {
 			fmt.Println("Error en el token " + err.Error())
-			return false, 401, error.Error(), models.Claim{}
+			return false, 401, err.Error(), models.Claim{}
 		} else {
 			fmt.Println("Error en el token " + msg)
 			return false, 401, msg, models.Claim{}
