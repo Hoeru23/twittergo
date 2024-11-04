@@ -3,6 +3,7 @@ package routers
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"time"
 
@@ -35,22 +36,26 @@ func Login(ctx context.Context) models.RestApi {
 		return r
 	}
 
+	fmt.Println("GeneroJWT")
 	jwtKey, err := jwt.GeneroJWT(ctx, userData)
 	if err != nil {
 		r.Message = "Ocurrió un error al intentar generar el token correspondiente > " + err.Error()
 		return r
 	}
 
+	fmt.Println("Model Resp Login")
 	resp := models.RespuestaLogin{
 		Token: jwtKey,
 	}
 
+	fmt.Println("Marshal Resp")
 	token, err2 := json.Marshal(resp)
 	if err2 != nil {
 		r.Message = "Ocurrió un error al intentar formatear el token a JSON > " + err2.Error()
 		return r
 	}
 
+	fmt.Println("Cookie")
 	cookie := &http.Cookie{
 		Name:    "token",
 		Value:   jwtKey,
@@ -58,6 +63,7 @@ func Login(ctx context.Context) models.RestApi {
 	}
 	cookieString := cookie.String()
 
+	fmt.Println("Preparo Resp")
 	res := &events.APIGatewayProxyResponse{
 		StatusCode: 200,
 		Body:       string(token),
