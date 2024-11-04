@@ -3,7 +3,6 @@ package routers
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"time"
 
@@ -18,7 +17,6 @@ func Login(ctx context.Context) models.RestApi {
 	var r models.RestApi
 	r.Status = 400
 
-	fmt.Println("> Paso 1 Intento Login")
 	body := ctx.Value(models.Key("body")).(string)
 	err := json.Unmarshal([]byte(body), &t)
 	if err != nil {
@@ -31,7 +29,6 @@ func Login(ctx context.Context) models.RestApi {
 		return r
 	}
 
-	fmt.Println("> Paso 2 Intento Login")
 	userData, existe := bd.IntentoLogin(t.Email, t.Password)
 	if !existe {
 		r.Message = "Usuario y/o Contraseña Inválidos"
