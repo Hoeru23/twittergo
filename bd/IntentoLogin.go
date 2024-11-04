@@ -17,7 +17,7 @@ func IntentoLogin(email string, password string) (models.Usuario, bool) {
 	passwordBytes := []byte(password)
 	passwordBD := []byte(usu.Password)
 
-	fmt.Println("> Comparo con el bcrypt")
+	fmt.Println("> Comparo con el bcrypt entre " + password + " y " + usu.Password)
 	err := bcrypt.CompareHashAndPassword(passwordBytes, passwordBD)
 	if err != nil {
 		return usu, false
