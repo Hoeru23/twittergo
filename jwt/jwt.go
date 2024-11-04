@@ -2,6 +2,7 @@ package jwt
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"github.com/Hoeru23/twittergo/models"
@@ -9,9 +10,11 @@ import (
 )
 
 func GeneroJWT(ctx context.Context, t models.Usuario) (string, error) {
+	fmt.Println("jwtSign")
 	jwtSign := ctx.Value(models.Key("jwtSign")).(string)
 	miClave := []byte(jwtSign)
 
+	fmt.Println("Payload " + string(miClave))
 	payload := jwt.MapClaims{
 		"email":            t.Email,
 		"nombre":           t.Nombre,
@@ -24,7 +27,10 @@ func GeneroJWT(ctx context.Context, t models.Usuario) (string, error) {
 		"exp":              time.Now().Add(time.Hour * 24).Unix(),
 	}
 
+	fmt.Println("Token")
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, payload)
+
+	fmt.Println("Signed")
 	tokenStr, err := token.SignedString(miClave)
 	if err != nil {
 		return tokenStr, err
