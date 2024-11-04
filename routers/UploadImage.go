@@ -54,7 +54,7 @@ func UploadImage(ctx context.Context, uploadType string, request events.APIGatew
 		body, err := base64.StdEncoding.DecodeString(request.Body)
 		if err != nil {
 			r.Status = 500
-			r.Message = err.Error()
+			r.Message = "Encoding > " + err.Error()
 			return r
 		}
 
@@ -62,7 +62,7 @@ func UploadImage(ctx context.Context, uploadType string, request events.APIGatew
 		p, err := mr.NextPart()
 		if err != nil && err != io.EOF {
 			r.Status = 500
-			r.Message = err.Error()
+			r.Message = "NewReader > " + err.Error()
 			return r
 		}
 
@@ -71,7 +71,7 @@ func UploadImage(ctx context.Context, uploadType string, request events.APIGatew
 				buf := bytes.NewBuffer(nil)
 				if _, err := io.Copy(buf, p); err != nil {
 					r.Status = 500
-					r.Message = err.Error()
+					r.Message = "NewBuffer > " + err.Error()
 					return r
 				}
 
@@ -79,7 +79,7 @@ func UploadImage(ctx context.Context, uploadType string, request events.APIGatew
 					Region: aws.String("us-east-1")})
 				if err != nil {
 					r.Status = 500
-					r.Message = err.Error()
+					r.Message = "NewSession > " + err.Error()
 					return r
 				}
 
@@ -91,7 +91,7 @@ func UploadImage(ctx context.Context, uploadType string, request events.APIGatew
 				})
 				if err != nil {
 					r.Status = 500
-					r.Message = err.Error()
+					r.Message = "NewUploader > " + err.Error()
 					return r
 				}
 			}
