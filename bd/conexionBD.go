@@ -33,7 +33,6 @@ func ConectarBD(ctx context.Context) error {
 		return err
 	}
 
-	fmt.Println("Conexión Exitosa con la BD")
 	MongoCN = client
 	DatabaseName = ctx.Value(models.Key("database")).(string)
 

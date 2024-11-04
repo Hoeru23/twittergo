@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"os"
 	"strings"
 
@@ -49,10 +48,8 @@ func EjecutoLambda(ctx context.Context, request events.APIGatewayProxyRequest) (
 		return res, nil
 	}
 
-	fmt.Println("> Asignacion de Ruta")
 	path := strings.Replace(request.PathParameters["twittergo"], os.Getenv("UrlPrefix"), "", -1)
 
-	fmt.Println("> Asignacion de Contexto")
 	awsgo.Ctx = context.WithValue(awsgo.Ctx, models.Key("path"), path)
 	awsgo.Ctx = context.WithValue(awsgo.Ctx, models.Key("method"), request.HTTPMethod)
 	awsgo.Ctx = context.WithValue(awsgo.Ctx, models.Key("user"), SecretModel.Username)
@@ -65,7 +62,6 @@ func EjecutoLambda(ctx context.Context, request events.APIGatewayProxyRequest) (
 
 	// Chequeo Conexión a la BD o Conecto la BD
 
-	fmt.Println("> Intento de Conexion a Base de Datos")
 	err = bd.ConectarBD(awsgo.Ctx)
 	if err != nil {
 		res = &events.APIGatewayProxyResponse{
@@ -80,8 +76,6 @@ func EjecutoLambda(ctx context.Context, request events.APIGatewayProxyRequest) (
 	}
 
 	// Manejadores
-
-	fmt.Println("> Subir el Handler")
 	respAPI := handlers.Manejadores(awsgo.Ctx, request)
 	if respAPI.CustomResp == nil {
 		res = &events.APIGatewayProxyResponse{
