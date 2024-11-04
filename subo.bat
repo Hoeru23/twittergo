@@ -1,5 +1,5 @@
 git add .
-git commit -m "Leer Tweet - 68"
+git commit -m "Eliminar Tweet - 71"
 git push
 SET GOOS=linux
 SET GOARCH=amd64
