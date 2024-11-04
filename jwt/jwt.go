@@ -10,7 +10,7 @@ import (
 )
 
 func GeneroJWT(ctx context.Context, t models.Usuario) (string, error) {
-	fmt.Println("jwtSign")
+	fmt.Println("jwtSign" + ctx)
 	jwtSign := ctx.Value(models.Key("jwtSign")).(string)
 	miClave := []byte(jwtSign)
 
