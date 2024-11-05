@@ -1,5 +1,5 @@
 git add .
-git commit -m "Borrar Relacion - 81"
+git commit -m "Consulta Relacion - 84"
 git push
 SET GOOS=linux
 SET GOARCH=amd64
