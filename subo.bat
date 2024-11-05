@@ -1,5 +1,5 @@
 git add .
-git commit -m "Obtener Avatar - 75"
+git commit -m "Alta de Relacion - 78"
 git push
 SET GOOS=linux
 SET GOARCH=amd64
