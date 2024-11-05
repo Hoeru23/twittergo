@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/base64"
+	"fmt"
 	"io"
 	"mime"
 	"mime/multipart"
@@ -33,6 +34,7 @@ func UploadImage(ctx context.Context, uploadType string, request events.APIGatew
 	var filename string
 	var usuario models.Usuario
 
+	fmt.Println("Bucket")
 	bucket := aws.String(ctx.Value(models.Key("bucketName")).(string))
 	switch uploadType {
 	case "A":
@@ -43,6 +45,7 @@ func UploadImage(ctx context.Context, uploadType string, request events.APIGatew
 		usuario.Banner = filename
 	}
 
+	fmt.Println("ParseMediaType")
 	mediaType, params, err := mime.ParseMediaType(request.Headers["Content-Type"])
 	if err != nil {
 		r.Status = 500
@@ -50,6 +53,7 @@ func UploadImage(ctx context.Context, uploadType string, request events.APIGatew
 		return r
 	}
 
+	fmt.Println("Encoding")
 	if strings.HasPrefix(mediaType, "multipart/") {
 		body, err := base64.StdEncoding.DecodeString(request.Body)
 		if err != nil {
